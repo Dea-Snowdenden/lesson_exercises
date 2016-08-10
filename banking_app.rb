@@ -20,6 +20,11 @@ class Bank_account < Customer
 
   attr_accessor :balance, :acc_number
 
+  def login
+    system "clear"
+    
+
+
   def account_balance(acc_balance)
   # opens .txt file
     file = File.open("account.txt", "r")
@@ -32,20 +37,30 @@ class Bank_account < Customer
     if acc_balance < 1
       puts "Zero Balance"
     else
-  #puts the amount of fuel to terminal
+  #puts the balance to terminal
       puts "#{acc_balance}"
     end
+
   # Overwrites .txt file with updated figure
     contents = File.open("account.txt", "w")
     contents.puts acc_balance
   end
 
-    # def pay_for_fuel(fuel_purchased)
-    #     if balance > 0
-    #       balance == balance - fuel_purchased
-    #     else
-    #       puts "No cash bro"
-    #     end
+  def withdraw(withdraw)
+    file = File.open("account.txt", "r")
+    contents = file.read
+    acc_balance = contents.to_i
+    puts "How much would you like to withdraw?"
+    withdraw_amount = gets.chomp
+    if acc_balance > withdraw_amount
+      acc_balance = acc_balance - withdraw_amount
+      puts "You have withdrawn $#{withdraw_amount}.  You have $#{acc_balance} remaining."
+    else
+      puts "Insufficient Funds"
+    end
+    contents = File.open("account.txt", "r")
+    contents.puts acc_balance
+  end
 
 end
 
@@ -60,14 +75,15 @@ puts "Enter Address"
 user_addr = gets.chomp.to_str
 puts "Enter contact details"
 user_contact = gets.chomp.to_str
+system "clear"
 
-bank_balance = 500
 
-user = Customer.new(user_name, user_email, Bank_account.new(balance),user_addr, user_contact)
+user = Customer.new(user_name, user_email, Bank_account.new(500),user_addr, user_contact)
 
-puts user.bank_account.acc_balance
+puts user.account.account_balance(user.account.balance)
 
-# user.account.acc_balance < 0 ? colour = :red : colour = :green
-# print "#{user_name} has $"
-# print Paint[user.account.acc_balance, colour]
-# puts " in account: #{acc_number}"
+
+#  user.account.account_balance(user.account.balance) < 0 ? colour = :red : colour = :green
+#  print "#{user_name} has $"
+#  print Paint[user.account.account_balance(user.account.balance), colour]
+  #  puts " in account: #{acc_number}"
