@@ -1,4 +1,5 @@
 require 'paint'
+require 'Terminal-Table'
 
 class Customer
   def initialize(name, email, account, address, contact, pin)
@@ -20,7 +21,7 @@ class Bankaccount < Customer
     @account_balance = account_balance
   end
 
-  attr_accessor :account_balance, :acc_number, :pin
+  attr_accessor :account_balance, :acc_number
 
   def login(customer)
     system "clear"
@@ -28,33 +29,32 @@ class Bankaccount < Customer
     puts "Please Enter Your PIN"
     @pin = gets.chomp.to_i
       if @pin == customer.pin
-        menu
+        menu(customer)
       else
         puts "INCORRECT PIN"
         sleep(3)
-        login
+        login(customer)
       end
     end
 
-    def menu
+    def menu(customer)
       system "clear"
-      puts "Welcome to the bank of T-Bag"
+      table = Terminal::Table.new :title => "Welcome to the bank of TBag" do |t|
+        
       puts "Balance   |   Withdraw"
       puts "Details   |   Deposit"
-      #puts "QUIT"
 
       selection = gets.chomp
       case selection
-      when "b"
+      when "Balance"
         account_balance
-      when "w"
+      when "Withdraw"
+        system "clear"
         withdraw
       when "Details"
-        details
+        details(customer)
       when "Deposit"
         deposit
-#      when "QUIT"
-#        quit
       else
         puts "Try Again"
         sleep(1)
@@ -69,10 +69,11 @@ class Bankaccount < Customer
     account_balance = file.read.to_i
   # if statement to see if funds exist
     if account_balance < 1
-      puts "Zero Balance"
+      puts Paint["Zero Balance", :red]
     else
   #puts the balance to terminal
-      puts "#{account_balance}"
+      print "Your balance is: $"
+      puts Paint["#{account_balance}", :green]
     end
   # Overwrites .txt file with updated figure
     contents = File.open("account.txt", "w")
@@ -84,45 +85,43 @@ class Bankaccount < Customer
     account_balance = file.read.to_i
     puts "How much would you like to withdraw?"
     withdraw_amount = gets.chomp.to_i
+    system "clear"
     if account_balance > withdraw_amount
       account_balance = account_balance - withdraw_amount
-      puts "You have withdrawn $#{withdraw_amount}.  You have $#{account_balance} remaining."
+      print "You have withdrawn $#{withdraw_amount}.  You have $"
+      print Paint["#{account_balance}", :green]
+      puts " remaining"
     else
-      puts "Insufficient Funds"
+      puts Paint["Insufficient Funds", :red]
     end
-    contents = File.open("account.txt", "r")
-    contents.puts account_balance
+    contents = File.open("account.txt", "w")
+    contents.print account_balance
+  end
+
+  def deposit
+    file = File.open("account.txt", "r")
+    account_balance = file.read.to_i
+    puts "How much would you like to deposit?"
+    deposit_amount = gets.chomp.to_i
+    system "clear"
+    account_balance = account_balance + deposit_amount
+    print "You have deposited $#{deposit_amount}.  You have $"
+    print Paint["#{account_balance}", :green]
+    puts " in your account."
+    contents = File.open("account.txt", "w")
+    contents.print account_balance
+  end
+
+  def details(customer)
+    puts "Name: #{customer.name}"
+    puts "Email: #{customer.email}"
+    puts "Address: #{customer.address}"
+    puts "Phone Number: #{customer.contact}"
   end
 
 end
 
 
-user = Customer.new("Trit", "trit@stan",Bankaccount.new(100), "69 Neutral", "69696969", 1234)
- user.name
- user.account.login(user)
-
-
-
-#  system "clear"
-#  puts "Enter User Name"
-#  user_name = gets.chomp.to_str
-#  puts "Enter Email address"
-#  user_email = gets.chomp.to_str
-#  #puts "Enter account number"
-#  #acc_number = gets.chomp.to_str
-#  puts "Enter Address"
-#  user_addr = gets.chomp.to_str
-#  puts "Enter contact details"
-#  user_contact = gets.chomp.to_str
-#  system "clear"
-#
-#
-# user = Customer.new(user_name, user_email, Bank_account.new(500),user_addr, user_contact, pin)
-
-#puts user.account.account_balance(user.account.balance)
-
-
-#  user.account.account_balance(user.account.balance) < 0 ? colour = :red : colour = :green
-#  print "#{user_name} has $"
-#  print Paint[user.account.account_balance(user.account.balance), colour]
-  #  puts " in account: #{acc_number}"
+ user = Customer.new("Trit", "trit@stan",Bankaccount.new(100), "69 Neutral", "69696969", 1234)
+  user.name
+  user.account.login(user)
