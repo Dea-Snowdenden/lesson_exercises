@@ -14,7 +14,7 @@ def comparelogin(name, password)
         if find.class == Employee
           find.employee_menu
         elsif find.class == Client
-          #send to client menu
+          find.client_menu
         else
           puts "You are not in our system"
         end
