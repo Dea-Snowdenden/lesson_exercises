@@ -39,8 +39,8 @@ class Bankaccount < Customer
 
     def menu(customer)
       system "clear"
-      table = Terminal::Table.new :title => "Welcome to the bank of TBag" do |t|
-        
+      # table = Terminal::Table.new :title => "Welcome to the bank of TBag" do |t|
+
       puts "Balance   |   Withdraw"
       puts "Details   |   Deposit"
 
@@ -120,7 +120,7 @@ class Bankaccount < Customer
   end
 
 end
-
+#put in menu to return to main menu
 
  user = Customer.new("Trit", "trit@stan",Bankaccount.new(100), "69 Neutral", "69696969", 1234)
   user.name
