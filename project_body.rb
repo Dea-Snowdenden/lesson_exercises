@@ -1,4 +1,5 @@
 require 'Mail'
+require 'Cal'
 
 class User
   def initialize(name, password,email, address, phone)
@@ -26,15 +27,20 @@ class Employee < User
     puts "Add Job, Update Job, Add Comment, Send Email"
     menu_select = gets.chomp
     if menu_select == "Add Job"
+      system "clear"
       save_file
     elsif menu_select == "Update Job"
+      system "clear"
       update_file
     elsif menu_select == "Add Comment"
+      system "clear"
       update_comment
     elsif menu_select == "View Timeframe"
+      system "clear"
       view_timeframe
     elsif menu_select == "Send Email"
-      send_email
+      system "clear"
+      write_email
     else
       puts "Try again"
     end
@@ -49,7 +55,7 @@ class Employee < User
     @client_name = gets.chomp
     puts "Please enter job location"
     @location = gets.chomp
-    puts "Please enter expected days to finish"
+    puts "Please enter days till expected to finish"
     @time_frame = gets.chomp
     puts "Please enter any extra comments"
     @comment = gets.chomp
@@ -94,16 +100,18 @@ class Employee < User
     open("#{job}.txt", 'a') { |f|
     f.print "comment: #{comment}"
     }
+    employee_menu
   end
 
-  # def write_email
-  #   puts "Write email subject below"
-  #   @subject = gets.chomp
-  #   puts "Write email below"
-  #   email = gets.chomp
-  #   file = File.open("#{@subject}.txt", "w+")
-  #   file.write(email)
-  # end
+  def write_email
+    puts "Write email subject below"
+    $subject = gets.chomp
+    puts "Write email below"
+    email = gets.chomp
+    file = File.open("#{$subject}.txt", "w+")
+    file.write(email)
+    send_email
+  end
 
   # def get_cust_email
   #   puts "Enter customer name"
@@ -113,19 +121,23 @@ class Employee < User
   def send_email
     mail = Mail.new do
       from     "anunsentletter@gmail.com"
-      to       'tristan.southwell@hotmail.com'
-      subject  "test"
-      body     File.read("test.txt")
+      to       "tristan.southwell@hotmail.com"
+      subject  "#{$subject}"
+      body     ("test1.txt")
   end
-
   mail.delivery_method :sendmail
-
   mail.deliver
-
+  puts "Email sent. Returning to menu"
+  sleep (5)
+  system "clear"
+  employee_menu
   end
 
-#   def view_timeframe
-#   end
+  def view_timeframe
+    puts "Enter job number"
+    job = gets.chomp
+
+  end
 
 end
 

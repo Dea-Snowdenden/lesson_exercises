@@ -4,6 +4,7 @@ def log_in
   @name = gets.chomp
   puts "Password:"
   @password = gets.chomp
+  system "clear"
   comparelogin(@name, @password)
 end
 
@@ -21,8 +22,6 @@ def comparelogin(name, password)
       else
           puts "Wrong Password, Go Back"
       end
-    else
-      puts "Your name is not in our system"
     end
   end
 end
