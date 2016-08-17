@@ -8,23 +8,32 @@ class Game
 
   def play
     while winning_positions != true
-      "player1 please make a moooove"
-      gets.chomp = move1
-### array slice
-### check winning positions
-    if winning_positions == true
-      "PLAYER 1 WINS!!!"
-    else
-      "player 2 make. a. mooove"
-    end
-    gets.chomp = move2
-### array slice
-### check winning positions
-    if winning_positions == true
-      "PLAYER 2 WINS!!!"
-    else
-###send to top
-    end
+      puts "player1 please make a move"
+      move1 = gets.chomp
+### store field number in array variable
+      x_moves_made << move1
+### check winning positions does not equal arrays
+### if it does goes to win, if not it goes to player2
+        if x_moves_made == winning_positions
+            puts "PLAYER 1 WINS!!!"
+        else
+            puts "player 2 make a move"
+        end
+      move2 = gets.chomp
+### store number in array vairable
+      o_moves_made << move2
+### check winning positions does not equal array
+### if it does, go to win, if not player 2 goes
+      if o_moves_made == winning_positions
+        puts "PLAYER 2 WINS!!!"
+      else
+        puts "player 1 make a move"
+      end
+  end
+
+x_moves_made = []
+o_moves_made = []
+
 end
 
 
@@ -38,12 +47,13 @@ class Board < Game
 
   possible_moves = {"1" => " ", "2" => " ", "3" => " ", "4" => " ", "5" => " ", "6" => " ", "7" => " ", "8" => " ", "9" => " "}
 
+  map = [{1 => 1, 2 => 2, 3 => 3}, {4 => 4, 5 => 5, 6 => 6}, {7 => 7, 8 => 8, 9 => 9}]
+
   def display_position
-    puts " 1 | 2 | 3 "
-    puts "-----------"
-    puts " 4 | 5 | 6 "
-    puts "-----------"
-    puts " 7 | 8 | 9 "
+    map.each do |array|
+      array.each do |element|
+        puts element
+
   end
 
 end
@@ -55,7 +65,7 @@ class Player
 
 end
 
-player1 = Player1.new("Trit")
-player2 = Player2.new("South")
+player1 = Player.new("Trit")
+player2 = Player.new("South")
 
 puts "Make your move by entering your chosen squares number"

@@ -1,5 +1,4 @@
 require 'Mail'
-require 'Cal'
 
 class User
   def initialize(name, password,email, address, phone)
@@ -65,7 +64,7 @@ class Employee < User
   def save_file
     add_job
     file = File.open("#{@job_number}.txt", "w+")
-    file.write("Job name: #{@job_name}\nClient Surname: #{@client_name}\nLocation: #{@location}\nTime Frame: #{@time_frame}\nComment: #{@comment}")
+    file.write("\nJob name: #{@job_name}\nClient Surname: #{@client_name}\nLocation: #{@location}\nTime Frame: #{@time_frame}\nComment: #{@comment}\n")
     puts "You have entered the following:"
     file.rewind
     puts file.read
@@ -80,6 +79,7 @@ class Employee < User
     file1 = File.open("#{@job_number}.txt", "r")
     file1.rewind
     puts file1.read
+    puts " "
     add_job
     file = File.open("#{@job_number}.txt", "w+")
     file.write("Job name: #{@job_name}\nClient Surname: #{@client_name}\nLocation: #{@location}\nTime Frame: #{@time_frame}\nComment: #{@comment}")
@@ -123,12 +123,12 @@ class Employee < User
       from     "anunsentletter@gmail.com"
       to       "tristan.southwell@hotmail.com"
       subject  "#{$subject}"
-      body     ("test1.txt")
+      body     ("#{$subject}.txt")
   end
   mail.delivery_method :sendmail
   mail.deliver
   puts "Email sent. Returning to menu"
-  sleep (5)
+  sleep (2)
   system "clear"
   employee_menu
   end
@@ -155,7 +155,7 @@ class Client < User
 
   def client_check
     puts "Hi #{@name}. Any comments about your job will be displayed below"
-    file = IO.readlines("#{@confirm}.txt")[4..-1]
+    file = IO.readlines("#{@confirm}.txt")[5..-1]
     puts file
   end
 
