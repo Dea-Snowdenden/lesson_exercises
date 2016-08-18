@@ -10,11 +10,6 @@ def display_position
   end
 end
 
-def update_position
-
-end
-
-
 def turnO(input)
   @map.each do |array|
     if array.include?(input)
@@ -25,22 +20,39 @@ def turnO(input)
 end
 
 def turnX(input)
-    @map.each do |array|
-      if array.include?(input)
-        array[input] = "X"
-      end
+  @map.each do |array|
+    if array.include?(input)
+      array[input] = "X"
     end
-    display position
   end
+  display_position
+end
 
 winning_positions = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 x_moves_made = []
 o_moves_made = []
-winner = []
 
 
-
-display_position
-puts "Player 1.  Make a move"
-move1 = gets.chomp.to_i
-#puts "Player 2.  Make a move"
+while winning_positions != x_moves_made || o_moves_made
+  display_position
+    puts "Player 1.  Make a move"
+    move1 = gets.chomp.to_i
+    turnO(move1)
+    x_moves_made << move1
+      if winning_positions.any? { |sub_array| sub_array.all? { |item| x_moves_made.include? item } } == true
+        puts "Player 1 WINS!!!!!!"
+      else
+        system "clear"
+        puts "Player 2.  Make a move"
+        display_position
+      end
+    move2 = gets.chomp.to_i
+    turnX(move2)
+    o_moves_made << move2
+      if winning_positions.any? { |sub_array| sub_array.all? { |item| o_moves_made.include? item } } == true
+        puts "Player 2 WINS!!!!"
+      else
+        system "clear"
+        puts "Keep playing"
+      end
+end
