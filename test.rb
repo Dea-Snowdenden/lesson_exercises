@@ -1,6 +1,5 @@
 @map = [{1 => "1", 2 => "2", 3 => "3"}, {4 => "4", 5 => "5", 6 => "6"}, {7 => "7", 8 => "8", 9 => "9"}]
 
-
 def display_position
   @map.each do |array|
     array.each_value do |element|
@@ -31,16 +30,17 @@ end
 winning_positions = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 x_moves_made = []
 o_moves_made = []
+winner = []
 
-
-while winning_positions != x_moves_made || o_moves_made
-  display_position
+while winner != [true]
     puts "Player 1.  Make a move"
+    display_position
     move1 = gets.chomp.to_i
     turnO(move1)
-    x_moves_made << move1
-      if winning_positions.any? { |sub_array| sub_array.all? { |item| x_moves_made.include? item } } == true
+    o_moves_made << move1
+      if winning_positions.any? { |sub_array| sub_array.all? { |item| o_moves_made.include? item } } == true
         puts "Player 1 WINS!!!!!!"
+        winner << true
       else
         system "clear"
         puts "Player 2.  Make a move"
@@ -48,11 +48,11 @@ while winning_positions != x_moves_made || o_moves_made
       end
     move2 = gets.chomp.to_i
     turnX(move2)
-    o_moves_made << move2
-      if winning_positions.any? { |sub_array| sub_array.all? { |item| o_moves_made.include? item } } == true
+    x_moves_made << move2
+      if winning_positions.any? { |sub_array| sub_array.all? { |item| x_moves_made.include? item } } == true
         puts "Player 2 WINS!!!!"
+        winner << true
       else
         system "clear"
-        puts "Keep playing"
       end
 end
