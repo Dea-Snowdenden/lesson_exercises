@@ -28,11 +28,23 @@ def turnX(input)
 end
 
 def ai_move
-  generate random number(exclude numbers already in o_moves_made)
+  public int getRandomWithExclusion(rnd, 1, 9, all_moves) {
+    int random = 1 + rnd.nextInt(end - 1 + 1 - exclude.length);
+    for (int ex : exclude) {
+        if (random < ex) {
+            break;
+        }
+        random++;
+    }
+    return random;
+}
+end
+
 
 winning_positions = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 x_moves_made = []
 o_moves_made = []
+all_moves = [x_moves_made + o_moves_made]
 winner = []
 
 while winner != [true]
