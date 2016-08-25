@@ -29,15 +29,16 @@ end
 
 def ai_move
   public int getRandomWithExclusion(rnd, 1, 9, all_moves) {
-    int random = 1 + rnd.nextInt(end - 1 + 1 - exclude.length);
+    int random = 1 + rnd.nextInt(9 - 1 + 1 - exclude.length)
     for (int ex : exclude) {
         if (random < ex) {
-            break;
+            break
         }
-        random++;
+        random++
     }
-    return random;
+    return random
 }
+end
 end
 
 
